@@ -31,9 +31,8 @@ def predict(model):
         im_bytes = im_file.read()
         im = Image.open(io.BytesIO(im_bytes))
 
-        if model in models:
-            results = models[model](im, size=640)  # reduce size=320 for faster inference
-            return results.pandas().xyxy[0].to_json(orient="records")
+        results = model(im, size=640)  # reduce size=320 for faster inference
+        return results.pandas().xyxy[0].to_json(orient="records")
 
 
 if __name__ == "__main__":
@@ -41,8 +40,7 @@ if __name__ == "__main__":
     parser.add_argument("--port", default=5000, type=int, help="port number")
     parser.add_argument('--model', nargs='+', default=['yolov5s'], help='model(s) to run, i.e. --model yolov5n yolov5s')
     opt = parser.parse_args()
-
-    for m in opt.model:
-        models[m] = torch.hub.load("ultralytics/yolov5", m, force_reload=True, skip_validation=True)
+    
+    model = torch.hub.load('ultralytics/yolov5', 'custom', '/workspace/yewonGPU/detect-hold-with-flask/hold.pt')  # custom/local model
 
     app.run(host="0.0.0.0", port=opt.port)  # debug=True causes Restarting with stat

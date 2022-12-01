@@ -17,55 +17,40 @@ $ pip install Flask
 After Flask installation run:
 
 ```shell
-$ python3 restapi.py --port 5000
+$ python3 restapi.py --port 5000 --model hold
 ```
 
 Then use [curl](https://curl.se/) to perform a request:
 
 ```shell
-$ curl -X POST -F image=@zidane.jpg 'http://localhost:5000/v1/object-detection/yolov5s'
+$ curl -X POST -F image=@tests/test1.jpg 'http://localhost:5000/v1/object-detection/hold'
 ```
 
 The model inference results are returned as a JSON response:
 
 ```json
 [
-  {
-    "class": 0,
-    "confidence": 0.8900438547,
-    "height": 0.9318675399,
-    "name": "person",
-    "width": 0.3264600933,
-    "xcenter": 0.7438579798,
-    "ycenter": 0.5207948685
-  },
-  {
-    "class": 0,
-    "confidence": 0.8440024257,
-    "height": 0.7155083418,
-    "name": "person",
-    "width": 0.6546785235,
-    "xcenter": 0.427829951,
-    "ycenter": 0.6334488392
-  },
-  {
-    "class": 27,
-    "confidence": 0.3771208823,
-    "height": 0.3902671337,
-    "name": "tie",
-    "width": 0.0696444362,
-    "xcenter": 0.3675483763,
-    "ycenter": 0.7991207838
-  },
-  {
-    "class": 27,
-    "confidence": 0.3527112305,
-    "height": 0.1540903747,
-    "name": "tie",
-    "width": 0.0336618312,
-    "xcenter": 0.7814827561,
-    "ycenter": 0.5065554976
-  }
+  {'class': 0,
+  'confidence': 0.8671640754,
+  'name': 'hold',
+  'xmax': 227.6498565674,
+  'xmin': 137.6468048096,
+  'ymax': 312.0726623535,
+  'ymin': 242.4343566895},
+ {'class': 0,
+  'confidence': 0.8606841564,
+  'name': 'hold',
+  'xmax': 519.2680664062,
+  'xmin': 432.5866699219,
+  'ymax': 186.9302215576,
+  'ymin': 112.3675079346},
+ {'class': 0,
+  'confidence': 0.8373295665,
+  'name': 'hold',
+  'xmax': 528.4312133789,
+  'xmin': 400.2341308594,
+  'ymax': 93.1273040771,
+  'ymin': 0.0}
 ]
 ```
 

@@ -8,6 +8,11 @@ created using Flask to expose the YOLOv5s model from [PyTorch Hub](https://pytor
 
 [Flask](https://palletsprojects.com/p/flask/) is required. Install with:
 
+(optional)
+```shell
+$ python -m pip install --upgrade pip
+```
+
 ```shell
 $ pip install -r requirements.txt
 ```

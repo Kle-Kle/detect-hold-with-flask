@@ -25,10 +25,20 @@ After Flask installation run:
 $ python3 restapi.py --port 5000 --model hold
 ```
 
+---
+
 Then use [curl](https://curl.se/) to perform a request:
 
+In `localhost`:
+
 ```shell
-$ curl -X POST -F image=@tests/test1.jpg 'http://localhost:5000/v1/object-detection/hold'
+$ curl -X POST -F image=@test1.jpg 'http://localhost:5000/v1/object-detection/hold'
+```
+
+In our `Goorm server`:
+
+```shell
+$ curl -X POST -F image=@test1.jpg 'http://15.165.187.245:59802/v1/object-detection/hold'
 ```
 
 The model inference results are returned as a JSON response:
@@ -58,6 +68,8 @@ The model inference results are returned as a JSON response:
   'ymin': 0.0}
 ]
 ```
+
+![image](https://user-images.githubusercontent.com/53112143/205897635-8936620f-06ab-48e7-9b60-6a8e2c3487c3.png)
 
 An example python script to perform inference using [requests](https://docs.python-requests.org/en/master/) is given
 in `example_request.py`

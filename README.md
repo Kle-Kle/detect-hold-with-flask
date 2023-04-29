@@ -43,7 +43,7 @@ $ curl -X POST -F image=@test1.jpg 'http://15.165.187.245:59802/v1/object-detect
 
 The model inference results are returned as a JSON response:
 
-```json
+```
 [
   {'class': 0,
   'confidence': 0.8671640754,
@@ -66,6 +66,9 @@ The model inference results are returned as a JSON response:
   'xmin': 400.2341308594,
   'ymax': 93.1273040771,
   'ymin': 0.0}
+  
+  ...
+  
 ]
 ```
 

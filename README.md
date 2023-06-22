@@ -4,6 +4,8 @@
 commonly used to expose Machine Learning (ML)  models to other services. This folder contains an example REST API
 created using Flask to expose the YOLOv5s model from [PyTorch Hub](https://pytorch.org/hub/ultralytics_yolov5/).
 
+https://github.com/ultralytics/yolov5/blob/master/utils/flask_rest_api/restapi.py
+
 ## Requirements
 
 [Flask](https://palletsprojects.com/p/flask/) is required. Install with:

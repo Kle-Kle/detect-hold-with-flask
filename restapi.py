@@ -43,6 +43,6 @@ if __name__ == "__main__":
     opt = parser.parse_args()
 
     for m in opt.model:
-        models[m] = torch.hub.load("ultralytics/yolov5", 'custom', '/workspace/yewonGPU/detect-hold-with-flask/hold.pt', force_reload=True, skip_validation=True)
+        models[m] = torch.hub.load("ultralytics/yolov5", 'custom', '/workspace/detect-hold-with-flask/hold.pt', force_reload=True, skip_validation=True)
 
     app.run(host="0.0.0.0", port=opt.port)  # debug=True causes Restarting with stat

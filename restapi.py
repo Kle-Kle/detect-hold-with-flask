@@ -5,7 +5,9 @@ Run a Flask REST API exposing one or more YOLOv5s models
 
 import argparse
 import io
+
 from ast import literal_eval
+import base64
 
 import torch
 from flask import Flask, request
@@ -19,29 +21,40 @@ DETECTION_URL = "/v1/object-detection/<model>"
 
 @app.route(DETECTION_URL, methods=["POST"])
 def predict(model):
+    im_str = request.form['image']
+    im_bytes = base64.b64decode(im_str)
+    im = base64.b64decode(im_bytes)
+    im = Image.open(io.BytesIO(im_bytes))
+    if model in models:
+        holds = models[model](im, size=640)  # reduce size=320 for faster inference
+        jsonArray = holds.pandas().xyxy[0].to_json(orient="records")
+        results = {
+            'success': True,
+            'results': literal_eval(jsonArray)
+        }
+        return results
+    
     if request.method != "POST":
         return
 
-    if request.files.get("image"):
-        # Method 1
-        # with request.files["image"] as f:
-        #     im = Image.open(io.BytesIO(f.read()))
+    # if request.files.get("image"):
+    #     # Method 1
+    #     # with request.files["image"] as f:
+    #     #     im = Image.open(io.BytesIO(f.read()))
 
-        # Method 2
-        im_file = request.files["image"]
-        im_bytes = im_file.read()
-        im = Image.open(io.BytesIO(im_bytes))
+    #     # Method 2
+    #     im_file = request.files["image"]
+    #     im_bytes = im_file.read()
+    #     im = Image.open(io.BytesIO(im_bytes))
 
-        if model in models:
-            holds = models[model](im, size=640)  # reduce size=320 for faster inference
-            jsonArray = holds.pandas().xyxy[0].to_json(orient="records")
-            
-            results = {
-                'success': True,
-                'results': literal_eval(jsonArray)
-            }
-            
-            return results
+    #     if model in models:
+    #         holds = models[model](im, size=640)  # reduce size=320 for faster inference
+    #         jsonArray = holds.pandas().xyxy[0].to_json(orient="records")
+    #         results = {
+    #             'success': True,
+    #             'results': literal_eval(jsonArray)
+    #         }
+    #         return results
 
 
 if __name__ == "__main__":

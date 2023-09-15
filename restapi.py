@@ -5,6 +5,7 @@ Run a Flask REST API exposing one or more YOLOv5s models
 
 import argparse
 import io
+from ast import literal_eval
 
 import torch
 from flask import Flask, request
@@ -32,8 +33,15 @@ def predict(model):
         im = Image.open(io.BytesIO(im_bytes))
 
         if model in models:
-            results = models[model](im, size=640)  # reduce size=320 for faster inference
-            return results.pandas().xyxy[0].to_json(orient="records")
+            holds = models[model](im, size=640)  # reduce size=320 for faster inference
+            jsonArray = holds.pandas().xyxy[0].to_json(orient="records")
+            
+            results = {
+                'success': True,
+                'results': literal_eval(jsonArray)
+            }
+            
+            return results
 
 
 if __name__ == "__main__":
